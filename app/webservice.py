@@ -53,6 +53,7 @@ if torch.cuda.is_available():
     model = whisper.load_model(model_name).cuda()
 else:
     model = whisper.load_model(model_name)
+    torch.quantization.quantize_dynamic(model, dtype=torch.qint8, inplace=True)
 model_lock = Lock()
 
 @app.get("/", response_class=RedirectResponse, include_in_schema=False)
